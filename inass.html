@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Inass ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    overflow-x: hidden;
+}
+
+section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+}
+
+.box {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 35px;
+    max-width: 650px;
+    width: 100%;
+    box-shadow: 0 0 50px rgba(0,0,0,0.6);
+}
+
+h1 {
+    font-size: 42px;
+}
+
+p {
+    font-size: 22px;
+    line-height: 1.6;
+}
+
+button {
+    margin-top: 25px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    background: #ff6f91;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+button:hover {
+    background: #ff4d6d;
+}
+
+.timer {
+    font-size: 32px;
+    margin-top: 25px;
+}
+
+.journal {
+    max-width: 700px;
+    width: 100%;
+}
+
+.entry {
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease;
+}
+
+.locked {
+    opacity: 0.5;
+}
+
+.star {
+    position: fixed;
+    top: -10px;
+    animation: fall 6s linear infinite;
+}
+
+@keyframes fall {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(110vh); opacity: 0; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SECTION 1 : DÉBUT -->
+<section>
+    <div class="box">
+        <h1>❤️ Inass ❤️</h1>
+        <p>
+            Tout a commencé le <strong>29 décembre 2025</strong>.<br>
+            Ce jour-là, sans le savoir, je choisissais déjà toi.
+        </p>
+        <button onclick="start()">Commencer 💖</button>
+    </div>
+</section>
+
+<!-- SECTION 2 : COMPTEUR -->
+<section>
+    <div class="box">
+        <h1>Notre temps ensemble ⏳</h1>
+        <div class="timer" id="timer"></div>
+        <button onclick="toggleSound()">🔊 Son</button>
+    </div>
+</section>
+
+<!-- SECTION 3 : JOURNAL -->
+<section>
+    <div class="journal" id="journal"></div>
+</section>
+
+<!-- SECTION 4 : MESSAGE DOUTE -->
+<section>
+    <div class="box">
+        <h1>Lis quand tu doutes 💌</h1>
+        <p>
+            Même les jours difficiles, même quand le monde est lourd,<br>
+            mon cœur te choisit encore et encore.
+        </p>
+    </div>
+</section>
+
+<audio id="music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/03/audio_89f6c7fa38.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const startDate = new Date("2025-12-29T00:00:00");
+const music = document.getElementById("music");
+music.volume = 0.12;
+
+// ▶️ Démarrage
+function start() {
+    music.play();
+    window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+}
+
+// 🔊 Son
+function toggleSound() {
+    music.paused ? music.play() : music.pause();
+}
+
+// ⭐ Effets
+setInterval(() => {
+    const star = document.createElement("div");
+    star.className = "star";
+    star.innerHTML = Math.random() > 0.5 ? "✨" : "💖";
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.fontSize = (12 + Math.random() * 20) + "px";
+    document.body.appendChild(star);
+    setTimeout(() => star.remove(), 6000);
+}, 350);
+
+// ⏳ Compteur
+function updateTimer() {
+    const now = new Date();
+    const diff = now - startDate;
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor(diff / 3600000) % 24;
+    const m = Math.floor(diff / 60000) % 60;
+    const s = Math.floor(diff / 1000) % 60;
+
+    document.getElementById("timer").innerHTML =
+        `${d} jours<br>${h}h ${m}m ${s}s 💕`;
+}
+setInterval(updateTimer, 1000);
+updateTimer();
+
+// 📖 Journal évolutif
+const journal = document.getElementById("journal");
+const today = new Date();
+const days = Math.floor((today - startDate) / 86400000);
+
+const phrases = [
+    "Un jour de plus à t’aimer",
+    "Un sourire pensé pour toi",
+    "Encore nous",
+    "Un moment simple mais précieux",
+    "Toujours toi",
+    "Mon choix quotidien",
+    "Un amour qui grandit"
+];
+
+for (let i = 0; i <= days; i++) {
+    const div = document.createElement("div");
+    div.className = "entry";
+
+    let text = phrases[i % phrases.length];
+
+    if (i === 0) text = "Le jour où tout a commencé ❤️";
+    if (i === 10) text = "Déjà 10 jours, et ce n’est que le début";
+    if (i === 50) text = "50 jours, et toujours ce même choix : toi";
+    if (i === 100) text = "💍 100 jours… et un futur à écrire ensemble";
+
+    if (i < 100) {
+        div.innerHTML = `<strong>Jour ${i + 1}</strong><br>${text}`;
+    } else {
+        div.innerHTML = `<strong>Jour ${i + 1}</strong><br>${text}`;
+    }
+
+    journal.appendChild(div);
+}
+</script>
+
+</body>
+</html>
